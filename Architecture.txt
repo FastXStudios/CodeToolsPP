@@ -1,0 +1,30 @@
+main.py
+├── core/
+│   ├── ai_manager.py          # Model registry, API calls, context preparation
+│   ├── code_analyzer.py       # Static analysis, TODO/FIXME detection
+│   ├── export_manager.py      # All export formats including LLM mode
+│   ├── file_manager.py        # File I/O, metadata, info queries
+│   ├── limpmax_processor.py   # Language-aware code cleaning engine
+│   ├── project_stats.py       # Metrics aggregation
+│   ├── selection_manager.py   # Checkbox state management
+│   └── startup_preloader.py   # Background initialization
+├── gui/
+│   ├── main_window.py
+│   ├── tree_view.py
+│   ├── preview_window.py
+│   ├── dashboard_window.py
+│   ├── ai_window.py           # Full AI chat UI with markdown rendering
+│   ├── limpmax_window.py
+│   ├── search_dialog.py
+│   ├── readme_generator_dialog.py
+│   ├── recent_folders_menu.py
+│   ├── export_menu.py
+│   ├── widgets/
+│   └── components/
+└── utils/
+    ├── config_manager.py
+    ├── language_manager.py    # i18n: ES / EN / ZH / RU
+    ├── theme_manager.py
+    ├── file_icons.py
+    ├── alerts.py
+    └── helpers.py

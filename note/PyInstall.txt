@@ -1,0 +1,19 @@
+Haz esto:
+
+    Ve a la carpeta CopyCode+
+    Shift + Click derecho en un espacio vacío
+    Dale a "Abrir ventana de PowerShell aquí"
+    O arriba en la barra escribe powershell y Enter.
+
+pwd
+
+Debe mostrar algo como:
+    C:\Users\Nombre\Downloads\CopyCode+
+
+Ahora copia y pega esto tal cual:
+    if (Test-Path .\build) { Remove-Item .\build -Recurse -Force }
+    if (Test-Path .\dist) { Remove-Item .\dist -Recurse -Force }
+    if (Test-Path .\main.spec) { Remove-Item .\main.spec -Force }
+
+Ahora pega esto COMPLETO:
+    .\.venv\Scripts\python.exe -m PyInstaller --noconfirm --clean --onefile --windowed --name "CodeToolsPP" --icon ".\icon.ico" --add-data ".\assets;assets" --add-data ".\data;data" --add-data ".\icon.ico;." --hidden-import "PIL._tkinter_finder" --collect-submodules "PIL" --collect-data "tkinterweb" .\main.py

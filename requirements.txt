@@ -1,0 +1,6 @@
+markdown2
+matplotlib
+Pillow
+pyperclip
+requests
+tkinterweb
