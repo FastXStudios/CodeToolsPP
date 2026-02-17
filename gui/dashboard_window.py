@@ -589,7 +589,7 @@ class DashboardWindow(CustomToplevel):
         self._todos_overlay = _LoadingOverlay(c, self.theme_manager, lang.get_text("dash_scanning_code"))
 
     def _build_dupes_page(self, parent):
-        """Ccodigo Duplicado con mejor diseaÃƒâ€šÃ‚Â±o"""
+        """Ccodigo Duplicado con"""
         lang = self.language_manager
         
         # Header con botcon
@@ -598,7 +598,6 @@ class DashboardWindow(CustomToplevel):
         
         header_bar = self._page_header(parent, title, btn_text, "scan", self._scan_dupes_async)
         
-        # a MARCAR QUaÃƒÂ¢Ã¢â€šÂ¬Ã‚Â° TIPO DE PaÃƒâ€šÃ‚ÂGINA ES
         header_bar._page_type = "dupes"
         
         # Container principal
@@ -1027,7 +1026,7 @@ class DashboardWindow(CustomToplevel):
                 except:
                     pass
 
-        # a AGREGAR ESTA SECCIaÃƒÂ¢Ã¢â€šÂ¬Ã…â€œN NUEVA:
+        # a AGREGAR ESTA seleccion NUEVA:
         # Mini tarjetas de TODOs y Duplicados
         if hasattr(self, 'todos_card_errors'):
             for card in [self.todos_card_errors, self.todos_card_todos, self.todos_card_fixmes]:
@@ -1131,7 +1130,7 @@ class DashboardWindow(CustomToplevel):
             return text
         head = max(8, int(max_chars * 0.58))
         tail = max(8, max_chars - head - 1)
-        return f"{text[:head]}aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦{text[-tail:]}"
+        return f"{text[:head]}…{text[-tail:]}"
 
     def _iter_widgets(self, widget):
         yield widget
@@ -1330,11 +1329,11 @@ class DashboardWindow(CustomToplevel):
             tk.Label(row, text=str(data['count']), font=("Segoe UI", 8), bg=bg_color, fg=t["tree_fg"],
                     width=8, anchor="e").pack(side="left", padx=2, pady=3)
             
-            # LaÃƒâ€šÃ‚Â­neas
+            # las lineas
             tk.Label(row, text=f"{data['lines']:,}", font=("Segoe UI", 8, "bold"), bg=bg_color, fg=t["accent"],
                     width=8, anchor="e").pack(side="left", padx=2, pady=3)
             
-            # TamaaÃƒâ€šÃ‚Â±o
+            # tamaños
             size_bytes = data.get("size", 0)
             tk.Label(row, text=self._format_size(size_bytes), font=("Segoe UI", 8), bg=bg_color, fg=t["tree_fg"],
                     width=8, anchor="e").pack(side="left", padx=(2, 6), pady=3)
@@ -1393,7 +1392,7 @@ class DashboardWindow(CustomToplevel):
                 font=("Segoe UI", 9), fg=t["fg"], bg=t["tree_bg"]
             ).pack(pady=20)
         else:
-            self._build_top_header(self.top_size_frame, "TamaÃƒÆ’Ã‚Â±o", t)
+            self._build_top_header(self.top_size_frame, "Tamaño", t)
             max_size = max(fi["size"] for fi in top_size) or 1
             for i, fi in enumerate(top_size, 1):
                 bg_color = t["tree_bg"] if i % 2 == 0 else t["secondary_bg"]
@@ -1514,7 +1513,7 @@ class DashboardWindow(CustomToplevel):
         except Exception as e:
             issues = []
             summary = {"errors": 0, "todos": 0, "fixmes": 0, "bugs": 0}
-            empty_message = f"aÃƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Error: {e}"
+            empty_message = f"Error: {e}"
         finally:
             self.after(0, lambda: self._finish_todos(issues, summary, empty_message))
 
@@ -1541,7 +1540,12 @@ class DashboardWindow(CustomToplevel):
             return
 
         self._todos_hint.configure(
-            text=f"Errores: {summary.get('errors', 0)}  aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢  TODOs: {summary.get('todos', 0)}  aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢  FIXMEs: {summary.get('fixmes', 0)}  aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢  BUGs: {summary.get('bugs', 0)}"
+            text=(
+                f"Errores: {summary.get('errors', 0)} | "
+                f"TODOs: {summary.get('todos', 0)} | "
+                f"FIXMEs: {summary.get('fixmes', 0)} | "
+                f"BUGs: {summary.get('bugs', 0)}"
+            )
         )
 
         for row in self._todo_issue_rows:
@@ -1577,7 +1581,7 @@ class DashboardWindow(CustomToplevel):
     def _normalize_issue_path(self, row):
         raw = str(row.get("file_abs") or "").strip()
         raw = raw.replace("\ufeff", "").replace("\u200b", "")
-        quote_chars = "\"'`aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂaÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œaÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢"
+        quote_chars = "\"'`“”‘’"
         while raw and raw[0] in quote_chars:
             raw = raw[1:]
         while raw and raw[-1] in quote_chars:
@@ -1667,7 +1671,12 @@ class DashboardWindow(CustomToplevel):
                         rate = (i + 1) / elapsed if elapsed > 0 else 0
                         remaining = (total_files - i - 1) / rate if rate > 0 else 0
                         
-                        status_msg = f"Indexando {i + 1}/{total_files}  aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢  {pct}%  aÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢  {remaining:.1f}s"
+                        status_msg = (
+                            f"Indexando {i + 1}/{total_files} | "
+                            f"{pct}% | "
+                            f"{remaining:.1f}s"
+                        )
+
                         self.after(0, lambda msg=status_msg: self._dupes_overlay.set_sub(msg))
                         self.after(0, lambda p=pct: self._dupes_overlay.set_bar(p))
                     
@@ -1708,42 +1717,57 @@ class DashboardWindow(CustomToplevel):
                 
                 result = []
                 if not duplicates:
-                    result = [(" No se encontrco ccodigo duplicado significativo (maximo 8 lineas)", "success")]
+                    result = [("No se encontró código duplicado significativo (máximo 8 líneas)", "success")]
                 else:
-                    result.append(("aÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢Ãƒâ€šÃ‚Â" * 80, "header"))
-                    result.append((f"ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â CaÃƒÂ¢Ã¢â€šÂ¬Ã…â€œDIGO DUPLICADO ({len(duplicates)} casos)", "duplicate"))
-                    result.append(("aÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢Ãƒâ€šÃ‚Â" * 80, "header"))
+                    result.append(("═" * 80, "header"))
+                    result.append((f"🔁 CÓDIGO DUPLICADO ({len(duplicates)} casos)", "duplicate"))
+                    result.append(("═" * 80, "header"))
                     result.append(("", None))
                     
                     for idx, dup in enumerate(duplicates, 1):
                         f1 = self.file_manager.get_relative_path(dup["file1"])
                         f2 = self.file_manager.get_relative_path(dup["file2"])
                         
-                        result.append((f"{'aÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬' * 80}", "line_num"))
+                        result.append(("=" * 80, "line_num"))
                         result.append((f"Caso #{idx}", "header"))
-                        result.append((f"ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ {f1}", "file"))
-                        result.append((f"ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ {f2}", "file"))
+                        result.append((f"📄 {f1}", "file"))
+                        result.append((f"📄 {f2}", "file"))
                         result.append(("", None))
-                        
+
                         for block in dup["blocks"]:
-                            result.append((f"{block['lines']} laÃƒâ€šÃ‚Â­neas duplicadas (L{block['start1']}-{block['end1']} aÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â L{block['start2']}-{block['end2']})", "warning"))
+                            result.append((
+                                f"{block['lines']} líneas duplicadas "
+                                f"(L{block['start1']}-{block['end1']} ↔ "
+                                f"L{block['start2']}-{block['end2']})",
+                                "warning"
+                            ))
                             result.append(("", None))
-                            
+
                             with open(dup["file1"], 'r', encoding='utf-8', errors='ignore') as f:
                                 lines = f.readlines()
-                                for line_num in range(block['start1'] - 1, min(block['end1'], block['start1'] + 6)):
+                                for line_num in range(
+                                    block['start1'] - 1,
+                                    min(block['end1'], block['start1'] + 6)
+                                ):
                                     line_content = lines[line_num].rstrip()
-                                    result.append((f"    {line_num + 1:4d} aÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ {line_content}", "code"))
-                            
+                                    result.append((
+                                        f"    {line_num + 1:4d} │ {line_content}",
+                                        "code"
+                                    ))
+
                             if block['lines'] > 6:
-                                result.append((f"    ... y {block['lines'] - 6} laÃƒâ€šÃ‚Â­neas mÃƒÆ’Ã‚Â¡s", "line_num"))
-                            
+                                result.append((
+                                    f"    ... y {block['lines'] - 6} líneas más",
+                                    "line_num"
+                                ))
+
                             result.append(("", None))
-                        
+
                         result.append(("", None))
+
                 
         except Exception as e:
-            result = [(f"aÃƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Error: {e}", "error")]
+            result = [(f"❌ Error: {e}", "error")]
         finally:
             self.after(0, lambda: self._finish_dupes(result))
 
