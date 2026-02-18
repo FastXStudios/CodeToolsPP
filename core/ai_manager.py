@@ -25,7 +25,7 @@ class AIManager:
         "deepseek": {
             "name": "DeepSeek V3.2",
             "model_id": "deepseek/deepseek-chat",
-            "api_key": "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",
+            "api_key": "coloca-tu-key",
             "logo": "deepseek.gif",
             "max_tokens": 8000,
             "description": "Modelo incluido",
