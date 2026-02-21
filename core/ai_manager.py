@@ -9,6 +9,7 @@ import requests
 import time
 from typing import Dict, List, Optional, Tuple
 from pathlib import Path
+from utils.helpers import app_base_path
 
 
 class AIManager:
@@ -25,7 +26,7 @@ class AIManager:
         "deepseek": {
             "name": "DeepSeek V3.2",
             "model_id": "deepseek/deepseek-chat",
-            "api_key": "coloca-tu-key",
+            "api_key": "coloca el modelo que quieras xd",
             "logo": "deepseek.gif",
             "max_tokens": 8000,
             "description": "Modelo incluido",
@@ -79,7 +80,7 @@ class AIManager:
         self.models = self.DEFAULT_MODELS.copy()
         
         # Directorio para logos personalizados
-        self.custom_logos_dir = "assets/logos/custom"
+        self.custom_logos_dir = os.path.join(app_base_path(), "assets", "logos", "custom")
         os.makedirs(self.custom_logos_dir, exist_ok=True)
         
         # Cargar modelos custom guardados
