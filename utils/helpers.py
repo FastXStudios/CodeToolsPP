@@ -2,13 +2,23 @@ import os
 import sys
 
 
+def app_base_path():
+    """Base persistente de la app (junto al .exe en frozen, raíz del proyecto en dev)."""
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
 def resource_path(relative_path):
-    """Resuelve rutas para desarrollo y PyInstaller onefile (_MEIPASS)."""
+    """Resuelve rutas priorizando recursos externos persistentes y luego _MEIPASS."""
+    persistent_candidate = os.path.join(app_base_path(), relative_path)
+    if os.path.exists(persistent_candidate):
+        return persistent_candidate
+
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-        base_path = sys._MEIPASS
-    else:
-        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    return os.path.join(base_path, relative_path)
+        return os.path.join(sys._MEIPASS, relative_path)
+
+    return persistent_candidate
 
 def format_file_size(size_bytes):
     """Formatea tamaño de archivo en formato legible"""
